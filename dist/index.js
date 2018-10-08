@@ -18,6 +18,10 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _styledComponents = require('styled-components');
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -37,7 +41,8 @@ var App = function (_Component) {
     _this.state = {
       rating: 0,
       feedback: '',
-      ratingDone: false
+      ratingDone: false,
+      open: false
     };
     return _this;
   }
@@ -61,6 +66,13 @@ var App = function (_Component) {
       submitFn(this.state.rating, this.state.feedback);
     }
   }, {
+    key: 'open',
+    value: function open() {
+      this.setState(function (state, props) {
+        return { open: !state.open };
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var rating = this.state.rating;
@@ -73,14 +85,19 @@ var App = function (_Component) {
         'div',
         null,
         _react2.default.createElement(
+          FloatingCercle,
+          { onClick: this.open.bind(this) },
+          this.state.open ? 'X' : 'FDB'
+        ),
+        _react2.default.createElement(
           'div',
-          { className: 'container' },
+          null,
           this.state.ratingDone ? _react2.default.createElement(
-            'div',
+            BodyContainer,
             null,
             postRatingLabel
-          ) : _react2.default.createElement(
-            'div',
+          ) : this.state.open && _react2.default.createElement(
+            BodyContainer,
             null,
             _react2.default.createElement(
               'h2',
@@ -115,6 +132,16 @@ var App = function (_Component) {
 
   return App;
 }(_react.Component);
+
+var BodyContainer = _styledComponents2.default.div.withConfig({
+  displayName: 'lib__BodyContainer',
+  componentId: 'v6994q-0'
+})(['padding:5px;border:1px solid green;position:fixed;box-shadow:0 0 10px  rgba(0,0,0,0.6);bottom:130px;right:40px;']);
+
+var FloatingCercle = _styledComponents2.default.div.withConfig({
+  displayName: 'lib__FloatingCercle',
+  componentId: 'v6994q-1'
+})(['border-radius:50%;width:70px;height:70px;background-color:green;display:flex;justify-content:center;align-items:center;box-shadow:0 0 10px  rgba(0,0,0,0.6);color:white;position:fixed;bottom:40px;right:40px;cursor:pointer;']);
 
 App.propTypes = {
   btnLabel: _propTypes2.default.string,

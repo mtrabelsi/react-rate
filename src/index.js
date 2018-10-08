@@ -4,8 +4,6 @@ import registerServiceWorker from './registerServiceWorker';
 import Feedback from './lib'
 
 ReactDOM.render((<div>
-  <Feedback />
-  <hr />
   <Feedback title="this is a custom title"
             btnLabel="custom button label"
             postRatingLabel="Rating has been submitted! we will get back to you soon"
