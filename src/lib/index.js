@@ -7,7 +7,8 @@ class App extends Component {
     super();
     this.state = {
       rating: 1,
-      feedback: ''
+      feedback: '',
+      ratingDone: false
     };
   }
   onStarClick(nextValue, prevValue, name) {
@@ -19,23 +20,27 @@ class App extends Component {
   }
   submit() {
     const submitFn = this.props.submitFn
+    this.setState({ ratingDone: true })
     submitFn(this.state.rating, this.state.feedback)
   }
   render() {
     const { rating } = this.state;
-    const { btnLabel, title } = this.props
+    const { btnLabel, title, postRatingLabel } = this.props
     return (
       <div>
         <div className="container">
-          <h2>{title}</h2>
-          <StarRatingComponent 
-            name="rate1" 
-            starCount={5}
-            value={rating}
-            onStarClick={this.onStarClick.bind(this)}
-          />
-          <div><textarea value={this.state.feedback} onChange={this.onChange.bind(this)}></textarea></div>
-          <div><button onClick={this.submit.bind(this)}>{btnLabel}</button></div>
+          {this.state.ratingDone ? <div>{postRatingLabel}</div> : (<div>
+            <h2>{title}</h2>
+            <StarRatingComponent 
+              name="rate1" 
+              starCount={5}
+              value={rating}
+              onStarClick={this.onStarClick.bind(this)}
+            />
+            <div><textarea value={this.state.feedback} onChange={this.onChange.bind(this)}></textarea></div>
+            <div><button onClick={this.submit.bind(this)}>{btnLabel}</button></div>
+          </div>)}
+        
         </div>
       </div>
     );
@@ -44,10 +49,13 @@ class App extends Component {
 
 App.propTypes = {
   btnLabel: PropTypes.string,
-  title: PropTypes.string
+  title: PropTypes.string,
+  postRatingLabel: PropTypes.string
+
 };
 
 App.defaultProps = {
+  postRatingLabel: 'Rating submitted.',
   title: 'Your feedback',
   btnLabel: 'Submit',
   submitFn: () => alert("sounds like you haven't passed any 'submitFn' callback via props!, this is a default callback is called!")

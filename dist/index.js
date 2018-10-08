@@ -36,7 +36,8 @@ var App = function (_Component) {
 
     _this.state = {
       rating: 1,
-      feedback: ''
+      feedback: '',
+      ratingDone: false
     };
     return _this;
   }
@@ -56,6 +57,7 @@ var App = function (_Component) {
     key: 'submit',
     value: function submit() {
       var submitFn = this.props.submitFn;
+      this.setState({ ratingDone: true });
       submitFn(this.state.rating, this.state.feedback);
     }
   }, {
@@ -64,7 +66,8 @@ var App = function (_Component) {
       var rating = this.state.rating;
       var _props = this.props,
           btnLabel = _props.btnLabel,
-          title = _props.title;
+          title = _props.title,
+          postRatingLabel = _props.postRatingLabel;
 
       return _react2.default.createElement(
         'div',
@@ -72,29 +75,37 @@ var App = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'container' },
-          _react2.default.createElement(
-            'h2',
-            null,
-            title
-          ),
-          _react2.default.createElement(_reactStarRatingComponent2.default, {
-            name: 'rate1',
-            starCount: 5,
-            value: rating,
-            onStarClick: this.onStarClick.bind(this)
-          }),
-          _react2.default.createElement(
+          this.state.ratingDone ? _react2.default.createElement(
             'div',
             null,
-            _react2.default.createElement('textarea', { value: this.state.feedback, onChange: this.onChange.bind(this) })
-          ),
-          _react2.default.createElement(
+            postRatingLabel
+          ) : _react2.default.createElement(
             'div',
             null,
             _react2.default.createElement(
-              'button',
-              { onClick: this.submit.bind(this) },
-              btnLabel
+              'h2',
+              null,
+              title
+            ),
+            _react2.default.createElement(_reactStarRatingComponent2.default, {
+              name: 'rate1',
+              starCount: 5,
+              value: rating,
+              onStarClick: this.onStarClick.bind(this)
+            }),
+            _react2.default.createElement(
+              'div',
+              null,
+              _react2.default.createElement('textarea', { value: this.state.feedback, onChange: this.onChange.bind(this) })
+            ),
+            _react2.default.createElement(
+              'div',
+              null,
+              _react2.default.createElement(
+                'button',
+                { onClick: this.submit.bind(this) },
+                btnLabel
+              )
             )
           )
         )
@@ -107,10 +118,13 @@ var App = function (_Component) {
 
 App.propTypes = {
   btnLabel: _propTypes2.default.string,
-  title: _propTypes2.default.string
+  title: _propTypes2.default.string,
+  postRatingLabel: _propTypes2.default.string
+
 };
 
 App.defaultProps = {
+  postRatingLabel: 'Rating submitted.',
   title: 'Your feedback',
   btnLabel: 'Submit',
   submitFn: function submitFn() {
