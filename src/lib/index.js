@@ -6,7 +6,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      rating: 1,
+      rating: 0,
       feedback: '',
       ratingDone: false
     };

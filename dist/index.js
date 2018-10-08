@@ -35,7 +35,7 @@ var App = function (_Component) {
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
 
     _this.state = {
-      rating: 1,
+      rating: 0,
       feedback: '',
       ratingDone: false
     };
